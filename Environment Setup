@@ -18,3 +18,6 @@ All code is located in /home/pi/STEM/2018_Code
   rasp-config/System/resolution/ -> select in drop-down 'DMT mode 85 1280x720 60 Hz 16:9
   
 # Micro USB orange is the signal
+
+# Get computers to browse the internet
+Go to VBCPSChannel wifi and navigate to 192.168.1.10/ssl, download the cert then import it to the local repository.
