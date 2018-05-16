@@ -1,0 +1,20 @@
+Notes on setting up Raspberry development environment
+
+click startbutton and select raspian-config
+  select and enable ssh, vnc server, ic
+Update system: sudo apt-get update
+Add Chrome: sudo apt-get install chromium-browser
+
+'<F11>' toggles fullscreen of main program SRC1.py
+'<Escape>' ends fullscreen of main program SRC1.py
+
+All code is located in /home/pi/STEM/2018_Code 
+
+# /home/pi/.config/lxsession/autostart
+  add the following:
+    @/usr/bin/python /home/pi/STEM/2018_Code/SRC1.py
+    
+# Resolution over VNC
+  rasp-config/System/resolution/ -> select in drop-down 'DMT mode 85 1280x720 60 Hz 16:9
+  
+# Micro USB orange is the signal
