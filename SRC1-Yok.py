@@ -150,33 +150,17 @@ import Tkinter as tk
 global toggle
 toggle = True
 
-def yok_event_loop():
-	for event in yokPad.read_loop():
-                if event.type == ecodes.EV_KEY:
-                        print ("EV_KEY (TODO): " + str(event))
-		elif event.type == ecodes.EV_ABS:
-                	absevent = categorize(event)
-                        axis = ecodes.bytype[absevent.event.type][absevent.event.code]
-                        if axis == "ABS_X":
-                                if absevent.event.value == 1:
-                                        #print ("Release ABS_X - middle")
-                                        process_release_yok()
-                                elif absevent.event.value == 0:
-					#print ("Run to left")
-					left_turn_yok()
-				elif absevent.event.value == 2:
-                                        #print ("Run to the right")
-                                        right_turn_yok()
-                        elif axis == "ABS_Y":
-                                if absevent.event.value == 1:
-                                        #print ("Release ABS_Y - middle")
-                                        process_release_yok()
-                                elif absevent.event.value == 0:
-                                        #print ("Run forward")
-                                        forward_yok()
-                                elif absevent.event.value == 2:
-                                        #print ("Run backward")
-                                        backward_yok()
+SELECT=312
+START=313
+FUNCTION3=304
+FUNCTION6=305
+FUNCTION5=306
+FUNCTION4=307
+LEFTBOTTOM=308
+LEFTTOP=310
+RIGHTBOTTOM=309
+RIGHTTOP=311
+
 def process_release_yok():
         print ("Releasing yok.....")
         ServoStop(servoLeft)
@@ -204,7 +188,7 @@ def backward_yok():
         print ("backward yok")
         ServoClockwise(servoLeft)
         ServoCounterClockwise(servoRight)
-        
+
 class MyFrame(tk.Frame):
     def __init__(self, master):
         tk.Frame.__init__(self, master)
@@ -216,8 +200,9 @@ class MyFrame(tk.Frame):
         root.bind('<KeyRelease>', self.key_release)
         root.bind('<F11>', self.toggle_fullscreen)
         root.bind('<Escape>', self.end_fullscreen)
-       	root.attributes('-fullscreen', True)
-        yok_event_loop()
+        root.bind('<Motion>', self.yok_event_loop)
+        root.attributes('-fullscreen', True)
+        #yok_event_loop()
 
 		
             
@@ -296,6 +281,61 @@ class MyFrame(tk.Frame):
 	#print 'key release %s' % event.char
         self.afterId = None
 
+    def yok_event_loop(self, event):
+        for event in yokPad.read_loop():
+            if event.type == ecodes.EV_KEY:
+                #print ("EV_KEY (TODO): " + str(event))
+                thisEvent = categorize(event)
+                code = thisEvent.event.code
+                value = thisEvent.event.value
+                if code == SELECT:
+                    text.insert('end', 'Select')
+                    print ("Select code: " + str(value))
+                elif code ==  START:
+                    print ("Start code: " + str(value))
+                elif code == FUNCTION3:
+                    print ("Function3 code: " + str(value))
+                elif code == FUNCTION6:
+                    print ("Function6 code: " + str(value))
+                elif code == FUNCTION5:
+                    print ("Function5 code: " + str(value))
+                elif code == FUNCTION4:
+                    print ("Function4 code: " + str(value))
+                elif code == LEFTBOTTOM:
+                    print ("LEFTBOTTOM code: " + str(value))
+                elif code == LEFTTOP:
+                    print ("LEFTTOP code: " + str(value))
+                elif code == RIGHTBOTTOM:
+                    print ("RIGHTBOTTOM code: " + str(value))
+                elif code == RIGHTTOP:
+                    print ("RIGHTTOP code: " + str(value))
+
+            elif event.type == ecodes.EV_ABS:
+                absevent = categorize(event)
+                axis = ecodes.bytype[absevent.event.type][absevent.event.code]
+                if axis == "ABS_X":
+                    if absevent.event.value == 1:
+                                        #print ("Release ABS_X - middle")
+                        process_release_yok()
+                    elif absevent.event.value == 0:
+                                        #print ("Run to left")
+                        left_turn_yok()
+                    elif absevent.event.value == 2:
+                                        #print ("Run to the right")
+                        right_turn_yok()
+                elif axis == "ABS_Y":
+                    if absevent.event.value == 1:
+                        #print ("Release ABS_Y - middle")
+                        process_release_yok()
+                    elif absevent.event.value == 0:
+                                        #print ("Run forward")
+                        forward_yok()
+                    elif absevent.event.value == 2:
+                                        #print ("Run backward")
+                        backward_yok()
+                    
+
+        
 
 
 # Program
